@@ -11,6 +11,7 @@ class RisaUtils:
         self.homepage = hentai_utils.get_homepage()
         self.popular = self.homepage.popular_now
         self.newest = self.homepage.new_uploads
+        self.search_results = None
 
     def clean_strip(self, string):
         res = string.strip().replace('#', '')
@@ -78,3 +79,11 @@ class RisaUtils:
                 return True
         else:
             return False
+
+    
+    def get_safe_source(self):
+        while True:
+            id = hentai_utils.get_random_id()
+            book = Hentai(id)
+            if not self.check_for_banned_tags(book):
+                return book

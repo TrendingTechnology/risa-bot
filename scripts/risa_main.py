@@ -1,5 +1,4 @@
-
-from hentai import Hentai
+from hentai import Hentai, Utils
 from discord.ext import commands, tasks
 from discord.flags import Intents
 from risa_embeds import RisaPaginatedEmbed
@@ -9,6 +8,7 @@ from risa_utils import RisaUtils
 from risa_settings import *
 
 utils = RisaUtils()
+h_utils = Utils()
 
 risaBot = commands.Bot(
     command_prefix=PREFIX,
@@ -107,6 +107,14 @@ async def on_reaction_add(reaction, user):
         for react in INTRO_MESSAGE_EMOJIS:
             await intro_mess.add_reaction(react)
 
+    elif reaction.emoji == EMOJI_RANDOM and reaction.count > 1:
+        embed = reaction.message.embeds[0]
+        obj = utils.get_safe_source()
+        embed = RisaIntroEmbed(obj)
+        intro_mess = await reaction.message.edit(embed=embed, delete_after=EMBED_DELETE_TIMER)
+        # for react in INTRO_MESSAGE_EMOJIS:
+        #     await intro_mess.add_reaction(react)
+
     elif reaction.emoji == EMOJI_WASTEBASKET and reaction.count > 1:
         await reaction.message.delete()
 
@@ -117,7 +125,6 @@ async def on_ready():
 
 
 # read command
-
 @risaBot.group(invoke_without_command=True)
 async def read(ctx, message):
     book = utils.get_source_by_id(message)
@@ -158,16 +165,18 @@ async def newest(ctx):
         await paginated_mess.add_reaction(react)
 
 
-
 # random command
 @read.command()
 async def random(ctx):
-    print('random working')
-
+    book = utils.get_safe_source()
+    embed = RisaIntroEmbed(book)
+    intro_mess = await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
+    for react in INTRO_MESSAGE_EMOJIS:
+        await intro_mess.add_reaction(react)
+    await intro_mess.add_reaction(EMOJI_RANDOM)
 
 
 # search command
-
 @risaBot.group(invoke_without_command=True)
 async def search(ctx, message):
     print('search working')

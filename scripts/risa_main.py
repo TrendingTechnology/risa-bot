@@ -112,8 +112,6 @@ async def on_reaction_add(reaction, user):
         obj = utils.get_safe_source()
         embed = RisaIntroEmbed(obj)
         intro_mess = await reaction.message.edit(embed=embed, delete_after=EMBED_DELETE_TIMER)
-        # for react in INTRO_MESSAGE_EMOJIS:
-        #     await intro_mess.add_reaction(react)
 
     elif reaction.emoji == EMOJI_WASTEBASKET and reaction.count > 1:
         await reaction.message.delete()
@@ -121,6 +119,7 @@ async def on_reaction_add(reaction, user):
 
 @risaBot.event
 async def on_ready():
+    await risaBot.change_presence(activity=BOT_STATUS)
     print("ready")
 
 
@@ -179,7 +178,10 @@ async def random(ctx):
 # search command
 @risaBot.group(invoke_without_command=True)
 async def search(ctx, message):
-    print('search working')
+    utils.search_results = h_utils.search_all_by_query(message)
+    # start creating search here
+    
+
 
 @search.command(aliases=EN_LANG)
 async def english(ctx, message):

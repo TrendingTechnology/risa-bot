@@ -1,6 +1,6 @@
 
 import json
-
+from discord import Activity, ActivityType
 
 def get_token(file_dir):
         with open(file_dir, 'r+') as js:
@@ -13,6 +13,7 @@ SELF_HOST_TOKEN = get_token(SELF_HOST_TOKEN_FILE_DIR)
 
 # bot
 PREFIX = '!'
+BOT_STATUS = Activity(type=ActivityType.listening, name=f"{PREFIX}risa")
 EMOJI_BOOK = '📖'
 EMOJI_BOOK_GET = '📘'
 EMOJI_WASTEBASKET = '🗑️'

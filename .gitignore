@@ -1,0 +1,7 @@
+# local files
+test.py
+config.json
+plans.txt
+
+# cache
+scripts/__pycache__

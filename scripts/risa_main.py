@@ -1,5 +1,6 @@
-from hentai import Hentai, Utils
-from discord.ext import commands, tasks
+
+from hentai import Hentai, Utils, Sort
+from discord.ext import commands
 from discord.flags import Intents
 from risa_embeds import RisaPaginatedEmbed
 from risa_embeds import RisaIntroEmbed
@@ -76,6 +77,10 @@ async def on_reaction_add(reaction, user):
             ref_name = 'Newest Uploads'
             data = utils.newest
 
+        elif title.startswith("Search"):
+            ref_name = title
+            data = utils.retrieve_search_data(title)
+
         book_list = utils.remove_banned_tags(data)
         embed = RisaPaginatedEmbed(book_list, ref_name, index=page)
         await reaction.message.edit(embed=embed, delete_after=EMBED_DELETE_TIMER)
@@ -93,6 +98,10 @@ async def on_reaction_add(reaction, user):
         elif title == 'Newest Uploads':
             ref_name = 'Newest Uploads'
             data = utils.newest
+        
+        elif title.startswith("Search"):
+            ref_name = title
+            data = utils.retrieve_search_data(title)
 
         book_list = utils.remove_banned_tags(data)
         embed = RisaPaginatedEmbed(book_list, ref_name, index=page)
@@ -177,10 +186,20 @@ async def random(ctx):
 
 # search command
 @risaBot.group(invoke_without_command=True)
-async def search(ctx, message):
-    utils.search_results = h_utils.search_all_by_query(message)
-    # start creating search here
-    
+async def search(ctx, *, message):
+    query = message.strip()
+    book_list =  utils.remove_banned_tags(
+            list(h_utils.search_all_by_query(query,
+            sort=Sort.Popular,
+            progressbar=True
+        )
+    ))
+    utils.save_search_data(query, book_list)
+    data = utils.retrieve_search_data(f'Search results on "{query}"') 
+    embed = RisaPaginatedEmbed(data, f'Search results on "{query}"')
+    paginated_mess = await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
+    for react in PAGINATED_MESSAGE_EMOJIS:
+        await paginated_mess.add_reaction(react)
 
 
 @search.command(aliases=EN_LANG)
@@ -195,4 +214,4 @@ async def japanese(ctx, message):
 async def chinese(ctx, message):
     print('ch working')
 
-risaBot.run(SELF_HOST_TOKEN)
+risaBot.run(TOKEN)

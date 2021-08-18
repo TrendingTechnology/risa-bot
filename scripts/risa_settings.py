@@ -1,5 +1,6 @@
 
 import json
+import os
 from discord import Activity, ActivityType
 
 def get_token(file_dir):
@@ -8,8 +9,8 @@ def get_token(file_dir):
             return data['token']
 
 # token
-SELF_HOST_TOKEN_FILE_DIR = 'config/config.json'
-SELF_HOST_TOKEN = get_token(SELF_HOST_TOKEN_FILE_DIR)
+TOKEN_FILE_DIR = 'config/config.json'
+TOKEN = os.environ.get('BOT_TOKEN') if os.environ.get('BOT_TOKEN') else get_token(TOKEN_FILE_DIR)
 
 # bot
 PREFIX = '!'
@@ -30,6 +31,17 @@ ICON_URL = "https://cdn.discordapp.com/attachments/466964106692395008/5803787654
 TOP_EMBED_TEXT = 'nHentai reader'
 EMBED_DELETE_TIMER = 10800
 SHORT_MSG_DELETE_TIMER = 8
+
+
+# aliases
+JP_LANG = ['jp']
+CH_LANG = ['cn']
+EN_LANG = ['en']
+
+# nh
+BANNED_TAGS = ['lolicon', 'shotacon']
+
+
 INTRO_MESSAGE_EMOJIS = [
 	EMOJI_BOOK,
 	EMOJI_DOWNLOAD,
@@ -51,10 +63,3 @@ PAGINATED_MESSAGE_EMOJIS = [
 	EMOJI_WASTEBASKET
 ]
 
-# aliases
-JP_LANG = ['jp']
-CH_LANG = ['cn']
-EN_LANG = ['en']
-
-# nh
-BANNED_TAGS = ['lolicon', 'shotacon']

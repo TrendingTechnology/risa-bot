@@ -1,6 +1,6 @@
 import json
 import re
-from hentai import Hentai, Utils
+from hentai import Hentai, Utils, Format
 from risa_settings import *
 
 
@@ -11,7 +11,7 @@ class RisaUtils:
         self.homepage = hentai_utils.get_homepage()
         self.popular = self.homepage.popular_now
         self.newest = self.homepage.new_uploads
-        self.search_results = None
+        self.search_data = dict()
 
     def clean_strip(self, string):
         res = string.strip().replace('#', '')
@@ -55,6 +55,13 @@ class RisaUtils:
 
         return res
 
+    def extract_titles(self, obj_list):
+        res = list()
+        for obj in obj_list:
+            res.append(obj.title(Format.Pretty))
+
+        return res
+
     def extract_url_from_descrip(self, string):
         res = re.findall(r"g/([0-9]+)", string)[0]
         return res
@@ -87,3 +94,16 @@ class RisaUtils:
             book = Hentai(id)
             if not self.check_for_banned_tags(book):
                 return book
+
+    def save_search_data(self, query, data):
+        self.search_data[query] = data
+    
+    def retrieve_search_data(self, query_string):
+        print(query_string)
+        query = re.findall(r'\"([a-zA-Z0-9\s]+)\"', query_string)[0]
+        for key, res in self.search_data.items():
+            if key == query:
+                return res
+            
+
+

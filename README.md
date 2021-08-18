@@ -23,7 +23,7 @@ to your heroku app with the name `BOT_TOKEN`.
 * `!read popular`-------- returns a paginated message containing popular uploads.
 * `!read newest`--------- returns a paginated message containing newest uploads.
 * `!read random`--------- returns a message containing the doujin with random id. 
-* `!read <id>`----------- returns a message containing the doujin. 
+* `!read <id>`----------- returns a message containing the doujin on the given id. 
 
 ##### Search Command
 

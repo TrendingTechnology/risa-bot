@@ -34,7 +34,7 @@ to your heroku app with the name `BOT_TOKEN`.
 ##### Download Command
 
 ###### Usage
-* `!download <id>`------- returns a paginated message containing all matches on the query.
+* `!download <id>`------- returns a message containing the download link of the doujin on the given id.
 
 
 #### More Info

@@ -8,7 +8,7 @@ Risa is an nHentai discord bot that will help you browse and download your favor
 
 #### Manual Hosting
 
-To manual host Risa, just simply go into the `config` folder and edit the `config.txt` by replacing `YourDiscordBotTokenHere` with your discord app token and changing the file extension from `.txt` to `.json` and then execute the `risa_main.py` file.
+To manual host Risa, just simply go into the `config` folder and edit the `config.txt` by replacing `YourDiscordBotTokenHere` with your discord app token and changing the file extension from `.txt` to `.json` and then execute the `scripts/risa_main.py` file.
 
 #### Heroku Hosting
 

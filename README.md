@@ -2,11 +2,11 @@
 
 ![Risa](https://i.ibb.co/JnkVh0L/18-cropped.jpg)
 
-#### Introduction
+### Introduction
 
 Risa is an nHentai discord bot that will help you browse and download your favorite doujin inside your own discord server.
 
-#### Hosting
+### Hosting
 
 ###### Manual Hosting
 To manual host Risa, just simply go into the `config` folder and edit the `config.txt` by replacing `YourDiscordBotTokenHere` with your discord app token and changing the file extension from `.txt` to `.json` and then execute the `scripts/risa_main.py` file.
@@ -15,7 +15,7 @@ To manual host Risa, just simply go into the `config` folder and edit the `confi
 Risa is now host-ready for heroku! To host, just simply add your token as a config var 
 to your heroku app with the name `BOT_TOKEN`.
 
-#### Command list
+### Command list
 
 ##### Read Command
 
@@ -37,6 +37,6 @@ to your heroku app with the name `BOT_TOKEN`.
 * `!download <id>`------- returns a message containing the download link of the doujin on the given id.
 
 
-#### More Info
+### More Info
 
 [risa invite link](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot)

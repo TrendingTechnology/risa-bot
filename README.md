@@ -39,4 +39,4 @@ to your heroku app with the name `BOT_TOKEN`.
 
 #### More Info
 
-[Risa Invite Link](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot)
+[risa invite link](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot)

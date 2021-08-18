@@ -39,6 +39,18 @@ class RisaReadEmbed(Embed):
         self.description = "**[{}]({})**".format(obj.title(Format.Pretty), obj.url)
 
 
+class RisaDownloadEmbed(Embed):
+    def __init__(self, obj):
+        super().__init__()
+        self.set_author(name=TOP_EMBED_TEXT, icon_url=ICON_URL)
+        self.set_thumbnail(url=obj.cover)
+        self.id = obj.id
+        self.url = f"https://nhdl.herokuapp.com/download/nhentai/{self.id}/"
+        self.description = "**[{}]({})**\nClick the title to download.".format(
+            obj.title(Format.Pretty), self.url
+        )
+
+
 class RisaPaginatedEmbed(Embed):
     def __init__(self, obj_list, title, index=1):
         super().__init__()

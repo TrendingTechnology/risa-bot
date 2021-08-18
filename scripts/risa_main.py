@@ -2,10 +2,11 @@
 from hentai import Hentai, Utils, Sort
 from discord.ext import commands
 from discord.flags import Intents
+from risa_utils import RisaUtils
 from risa_embeds import RisaPaginatedEmbed
+from risa_embeds import RisaDownloadEmbed
 from risa_embeds import RisaIntroEmbed
 from risa_embeds import RisaReadEmbed
-from risa_utils import RisaUtils
 from risa_settings import *
 
 utils = RisaUtils()
@@ -122,6 +123,14 @@ async def on_reaction_add(reaction, user):
         embed = RisaIntroEmbed(obj)
         intro_mess = await reaction.message.edit(embed=embed, delete_after=EMBED_DELETE_TIMER)
 
+    elif reaction.emoji == EMOJI_DOWNLOAD and reaction.count > 1:
+        embed = reaction.message.embeds[0]
+        id = utils.extract_url_from_descrip(embed.description)
+        obj = Hentai(id)
+        embed = RisaDownloadEmbed(obj)
+        intro_mess = await reaction.message.channel.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
+        await intro_mess.add_reaction(EMOJI_WASTEBASKET)
+
     elif reaction.emoji == EMOJI_WASTEBASKET and reaction.count > 1:
         await reaction.message.delete()
 
@@ -144,7 +153,7 @@ async def read(ctx, message):
                 await intro_mess.add_reaction(react)
         else:
             await ctx.send(
-                'Sorry, I cannot show you a doujin that contains a banned tag.',
+                'Sorry, I cannot let you show a doujin that contains a banned tag.',
                 delete_after=SHORT_MSG_DELETE_TIMER
             )
     else:
@@ -201,17 +210,23 @@ async def search(ctx, *, message):
     for react in PAGINATED_MESSAGE_EMOJIS:
         await paginated_mess.add_reaction(react)
 
-
-@search.command(aliases=EN_LANG)
-async def english(ctx, message):
-    print('en working')
-
-@search.command(aliases=JP_LANG)
-async def japanese(ctx, message):
-    print('jp working')
-
-@search.command(aliases=CH_LANG)
-async def chinese(ctx, message):
-    print('ch working')
+@risaBot.command()
+async def download(ctx, message):
+    book = utils.get_source_by_id(message)
+    if book:
+        if not utils.check_for_banned_tags(book):
+            embed = RisaDownloadEmbed(book)
+            intro_mess = await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
+            await intro_mess.add_reaction(EMOJI_WASTEBASKET)
+        else:
+            await ctx.send(
+                'Sorry, I cannot let you show a doujin that contains a banned tag.',
+                delete_after=SHORT_MSG_DELETE_TIMER
+            )
+    else:
+        await ctx.send(
+                "Doujin doesn't exist!",
+                delete_after=SHORT_MSG_DELETE_TIMER
+            ) 
 
 risaBot.run(TOKEN)

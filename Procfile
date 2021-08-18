@@ -1,1 +1,1 @@
-Worker: python ./risa_main.py
+Worker: python ./scripts/risa_main.py

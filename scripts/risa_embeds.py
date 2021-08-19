@@ -1,10 +1,53 @@
 
-from discord import Embed
+from datetime import datetime
+from discord import Embed, Colour
 from hentai.hentai import Format
 from risa_settings import *
 from risa_utils import RisaUtils
 
 utils = RisaUtils()
+
+
+class RisaEmbed(Embed):
+    def __init__(self):
+        super().__init__()
+        self.set_thumbnail(url=RISA_THUMB_URL)
+        self.title = "Hello! I am Risa"
+        self.color = Colour.light_grey()
+        self.description = f"I am an nHentai discord bot that will help you browse\
+            and download your favorite doujin inside your own discord server. You can\
+            invite me to your server [here](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot). Type \
+         `{PREFIX}help` to start using me!"
+        self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n\
+            [G-mail]({GMAIL})")
+
+        self.add_field(name="Source Code", value=f"[Risa Discord Bot]({SOURCE_CODE})")
+        self.timestamp = datetime.utcnow()
+
+
+class RisaHelpEmbed(Embed):
+    def __init__(self):
+        super().__init__()
+        self.set_author(name=TOP_EMBED_TEXT, icon_url=ICON_URL)
+        self.title = "Here are Risa's commands"
+        self.add_field(name=f"`{PREFIX}read <id/popular/newest/random>`",
+            value=f"- returns a message/paginated message that matches to the given <id> or <popular/newest/random>.",
+            inline=False
+        )
+        self.add_field(name=f"`{PREFIX}download <id>`",
+            value="- returns a message containing the download link of the given <id>.",
+            inline=False
+        )
+        self.add_field(name=f"`{PREFIX}search <query>`",
+            value="- returns a paginated message containing all matches on the given <query>.",
+            inline=False
+        )
+        self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n\
+            [G-mail]({GMAIL})"
+        )
+
+        self.add_field(name="Source Code", value=f"[Risa Discord Bot]({SOURCE_CODE})")
+        self.timestamp = datetime.utcnow()
 
 class RisaIntroEmbed(Embed):
     def __init__(self, obj):
@@ -49,7 +92,6 @@ class RisaDownloadEmbed(Embed):
         self.description = "**[{}]({})**\nClick the title to download.".format(
             obj.title(Format.Pretty), self.url
         )
-
 
 class RisaPaginatedEmbed(Embed):
     def __init__(self, obj_list, title, index=1):

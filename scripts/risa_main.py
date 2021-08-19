@@ -1,12 +1,15 @@
 
 from hentai import Hentai, Utils, Sort
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.flags import Intents
+from hentai.hentai import Homepage
 from risa_utils import RisaUtils
 from risa_embeds import RisaPaginatedEmbed
 from risa_embeds import RisaDownloadEmbed
 from risa_embeds import RisaIntroEmbed
 from risa_embeds import RisaReadEmbed
+from risa_embeds import RisaHelpEmbed
+from risa_embeds import RisaEmbed
 from risa_settings import *
 
 utils = RisaUtils()
@@ -16,6 +19,11 @@ risaBot = commands.Bot(
     command_prefix=PREFIX,
     intents = Intents.all()
 )
+risaBot.remove_command('help')
+
+@tasks.loop(hours=1)
+async def get_updates():
+    h_utils.get_homepage()
 
 
 @risaBot.event
@@ -138,6 +146,7 @@ async def on_reaction_add(reaction, user):
 @risaBot.event
 async def on_ready():
     await risaBot.change_presence(activity=BOT_STATUS)
+    get_updates.start()
     print("ready")
 
 
@@ -153,12 +162,12 @@ async def read(ctx, message):
                 await intro_mess.add_reaction(react)
         else:
             await ctx.send(
-                'Sorry, I cannot let you show a doujin that contains a banned tag.',
+                BANNED_TAG_MSG,
                 delete_after=SHORT_MSG_DELETE_TIMER
             )
     else:
         await ctx.send(
-                "Doujin doesn't exist!",
+                NOT_EXIST_MSG,
                 delete_after=SHORT_MSG_DELETE_TIMER
             )
 
@@ -210,6 +219,7 @@ async def search(ctx, *, message):
     for react in PAGINATED_MESSAGE_EMOJIS:
         await paginated_mess.add_reaction(react)
 
+# download
 @risaBot.command()
 async def download(ctx, message):
     book = utils.get_source_by_id(message)
@@ -220,13 +230,23 @@ async def download(ctx, message):
             await intro_mess.add_reaction(EMOJI_WASTEBASKET)
         else:
             await ctx.send(
-                'Sorry, I cannot let you show a doujin that contains a banned tag.',
+                BANNED_TAG_MSG,
                 delete_after=SHORT_MSG_DELETE_TIMER
             )
     else:
         await ctx.send(
-                "Doujin doesn't exist!",
+                NOT_EXIST_MSG,
                 delete_after=SHORT_MSG_DELETE_TIMER
-            ) 
+            )
+
+@risaBot.command()
+async def risa(ctx):
+    embed = RisaEmbed()
+    await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
+
+@risaBot.command()
+async def help(ctx):
+    embed = RisaHelpEmbed()
+    await ctx.send(embed=embed)
 
 risaBot.run(TOKEN)

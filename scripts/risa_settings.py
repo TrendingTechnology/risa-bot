@@ -37,6 +37,7 @@ BANNED_TAG_MSG = "Sorry, I cannot let you show a doujin that contains a banned t
 NOT_EXIST_MSG = "Doujin doesn't exist!"
 # Owner
 GITHUB_LINK = "https://github.com/arkhon7"
+GITHUB_README_LINK = "https://github.com/arkhon7/risa-bot#risa"
 SOURCE_CODE = "https://github.com/arkhon7/risa-bot.git"
 GMAIL = 'https://mail.google.com/mail/u/0/?fs=1&to=reviuy9@gmail.com&tf=cm'
 

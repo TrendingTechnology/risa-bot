@@ -21,7 +21,8 @@ class RisaEmbed(Embed):
         self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n\
             [G-mail]({GMAIL})")
 
-        self.add_field(name="Source Code", value=f"[Risa Discord Bot]({SOURCE_CODE})")
+        self.add_field(name="More Info Here", value=f"[Risa Bot]({GITHUB_README_LINK})")
+        self.add_field(name="Report Issues here", value=f"[Source Code]({SOURCE_CODE})")
         self.timestamp = datetime.utcnow()
 
 
@@ -45,8 +46,7 @@ class RisaHelpEmbed(Embed):
         self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n\
             [G-mail]({GMAIL})"
         )
-
-        self.add_field(name="Source Code", value=f"[Risa Discord Bot]({SOURCE_CODE})")
+        self.add_field(name="More Info Here", value=f"[Risa Bot]({GITHUB_README_LINK})")
         self.timestamp = datetime.utcnow()
 
 class RisaIntroEmbed(Embed):

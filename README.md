@@ -14,7 +14,7 @@ To manual host Risa, just simply go into the `config` folder and edit the `confi
 Risa is now host-ready for heroku! To host, just simply add your token as a config var 
 to your heroku app with the name `BOT_TOKEN`.
 
-### Command list
+### Commands
 
 ##### Read Command
 
@@ -35,7 +35,11 @@ to your heroku app with the name `BOT_TOKEN`.
 ###### Usage
 * `!download <id>`------- returns a message containing the download link of the doujin on the given id.
 
-
 ### More Info
 
-[risa invite link](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot)
+Add risa to your server [here](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot)
+
+
+
+
+

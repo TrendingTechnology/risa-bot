@@ -1,7 +1,6 @@
 # Risa
 
-![Risa](https://i.ibb.co/JnkVh0L/18-cropped.jpg)
-
+<img src="https://i.ibb.co/JnkVh0L/18-cropped.jpg" width="250" height="250">
 ### Introduction
 
 Risa is an nHentai discord bot that will help you browse and download your favorite doujin inside your own discord server.

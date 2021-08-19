@@ -14,15 +14,14 @@ class RisaEmbed(Embed):
         self.set_thumbnail(url=RISA_THUMB_URL)
         self.title = "Hello! I am Risa"
         self.color = Colour.light_grey()
-        self.description = f"I am an nHentai discord bot that will help you browse\
-            and download your favorite doujin inside your own discord server. You can\
-            invite me to your server [here](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot). Type \
-         `{PREFIX}help` to start using me!"
-        self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n\
-            [G-mail]({GMAIL})")
+        self.description = f"I am an nHentai discord bot that will help you browse"\
+        "and download your favorite doujin inside your own discord server. You can"\
+        "invite me to your server [here](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot). Type "\
+        f"`{PREFIX}help` to start using me!"
+        self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n"\
+            f"[G-mail]({GMAIL})")
 
-        self.add_field(name="More Info Here", value=f"[Risa Bot]({GITHUB_README_LINK})")
-        self.add_field(name="Report Issues here", value=f"[Source Code]({SOURCE_CODE})")
+        self.add_field(name="More Info Here", value=f"[Risa Bot]({GITHUB_README_LINK})\n[Source Code]({SOURCE_CODE})")
         self.timestamp = datetime.utcnow()
 
 
@@ -43,10 +42,10 @@ class RisaHelpEmbed(Embed):
             value="- returns a paginated message containing all matches on the given <query>.",
             inline=False
         )
-        self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n\
-            [G-mail]({GMAIL})"
+        self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n"\
+            f"[G-mail]({GMAIL})"
         )
-        self.add_field(name="More Info Here", value=f"[Risa Bot]({GITHUB_README_LINK})")
+        self.add_field(name="More Info Here", value=f"[Risa Bot]({GITHUB_README_LINK})\n[Source Code]({SOURCE_CODE})")
         self.timestamp = datetime.utcnow()
 
 class RisaIntroEmbed(Embed):

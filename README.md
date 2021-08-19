@@ -36,18 +36,7 @@ to your heroku app with the name `BOT_TOKEN`.
 ###### Usage
 * `!download <id>`------- returns a message containing the download link of the doujin on the given id.
 
-### Changelogs
-###### New Features
- * Help command
- 
-###### Changes
- * No changes
- 
-###### Removed
- * Removed the search command's subcommands
 ### More Info
-
-[G-mail](reviuy9@gmail.com)
 
 Add risa to your server [here](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot)
 

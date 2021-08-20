@@ -9,6 +9,7 @@ from risa_embeds import RisaDownloadEmbed
 from risa_embeds import RisaIntroEmbed
 from risa_embeds import RisaReadEmbed
 from risa_embeds import RisaHelpEmbed
+from risa_embeds import RisaLoadEmbed
 from risa_embeds import RisaEmbed
 from risa_settings import *
 
@@ -116,6 +117,50 @@ async def on_reaction_add(reaction, user):
         embed = RisaPaginatedEmbed(book_list, ref_name, index=page)
         await reaction.message.edit(embed=embed, delete_after=EMBED_DELETE_TIMER)
 
+    elif reaction.emoji == EMOJI_BACK_PAGE_10 and reaction.count > 1:
+        embed = reaction.message.embeds[0]
+        title = embed.title
+        footer = embed.footer.text
+        page = int(utils.extract_curr_page_from_footer(footer)) - 10
+
+        if title == 'Popular Uploads':
+            ref_name = 'Popular Uploads'
+            data = utils.popular
+
+        elif title == 'Newest Uploads':
+            ref_name = 'Newest Uploads'
+            data = utils.newest
+
+        elif title.startswith("Search"):
+            ref_name = title
+            data = utils.retrieve_search_data(title)
+
+        book_list = utils.remove_banned_tags(data)
+        embed = RisaPaginatedEmbed(book_list, ref_name, index=page)
+        await reaction.message.edit(embed=embed, delete_after=EMBED_DELETE_TIMER)
+
+    elif reaction.emoji == EMOJI_NEXT_PAGE_10 and reaction.count > 1:
+        embed = reaction.message.embeds[0]
+        title = embed.title
+        footer = embed.footer.text
+        page = int(utils.extract_curr_page_from_footer(footer)) + 10
+
+        if title == 'Popular Uploads':
+            ref_name = 'Popular Uploads'
+            data = utils.popular
+
+        elif title == 'Newest Uploads':
+            ref_name = 'Newest Uploads'
+            data = utils.newest
+
+        elif title.startswith("Search"):
+            ref_name = title
+            data = utils.retrieve_search_data(title)
+
+        book_list = utils.remove_banned_tags(data)
+        embed = RisaPaginatedEmbed(book_list, ref_name, index=page)
+        await reaction.message.edit(embed=embed, delete_after=EMBED_DELETE_TIMER)
+
     elif reaction.emoji == EMOJI_BOOK_GET and reaction.count > 1:
         embed = reaction.message.embeds[0]
         id = utils.extract_url_from_descrip(embed.description)
@@ -206,18 +251,24 @@ async def random(ctx):
 @risaBot.group(invoke_without_command=True)
 async def search(ctx, *, message):
     query = message.strip()
+    embed = RisaLoadEmbed(LOAD_GIF_URL, LOAD_MSG)
+    paginated_mess = await ctx.send(embed=embed)
     book_list =  utils.remove_banned_tags(
             list(h_utils.search_all_by_query(query,
-            sort=Sort.Popular,
+            sort=Sort.PopularWeek,
             progressbar=True
         )
     ))
-    utils.save_search_data(query, book_list)
-    data = utils.retrieve_search_data(f'Search results on "{query}"') 
-    embed = RisaPaginatedEmbed(data, f'Search results on "{query}"')
-    paginated_mess = await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
-    for react in PAGINATED_MESSAGE_EMOJIS:
-        await paginated_mess.add_reaction(react)
+    if book_list != []:
+        utils.save_search_data(query, book_list)
+        data = utils.retrieve_search_data(f'Search results on `{query}`') 
+        embed = RisaPaginatedEmbed(data, f'Search results on `{query}`')
+        await paginated_mess.edit(embed=embed, delete_after=EMBED_DELETE_TIMER)
+        for react in PAGINATED_MESSAGE_EMOJIS:
+            await paginated_mess.add_reaction(react)
+    else:
+        embed = RisaLoadEmbed(NO_RESULT_GIF_URL, NO_RESULT_MSG)
+        await paginated_mess.edit(embed=embed, delete_after=5)
 
 # download
 @risaBot.command()

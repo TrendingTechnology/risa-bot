@@ -100,10 +100,23 @@ class RisaUtils:
     
     def retrieve_search_data(self, query_string):
         print(query_string)
-        query = re.findall(r'\"([a-zA-Z0-9\s]+)\"', query_string)[0]
+        query = re.findall(r'`(.*?)`', query_string)[0]
         for key, res in self.search_data.items():
             if key == query:
                 return res
+
+    def normalize_page_index(self, index, max_page):
+        if index >= max_page:
+            return  max_page
+        elif index <= 1:
+            return 1
+        else:
+            return index
+    
+    def inject_to_query(self, query, queries):
+        queries = ' '.join(queries)
+        res = query + queries
+        return res
             
 
 

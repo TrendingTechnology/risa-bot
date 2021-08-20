@@ -97,6 +97,14 @@ class RisaPaginatedEmbed(Embed):
         super().__init__()
         self.set_author(name=TOP_EMBED_TEXT, icon_url=ICON_URL)
         self.title = title
-        self.set_image(url=obj_list[index-1].cover)
-        self.set_footer(text=f"Page {index}/{len(obj_list)}")
-        self.description = "**[{}]({})**".format(obj_list[index-1].title(Format.Pretty), obj_list[index-1].url)
+        print(index, len(obj_list))
+        self.index = utils.normalize_page_index(index, len(obj_list))
+        self.set_image(url=obj_list[self.index-1].cover)
+        self.set_footer(text=f"Page {self.index}/{len(obj_list)}")
+        self.description = "**[{}]({})**".format(obj_list[self.index-1].title(Format.Pretty), obj_list[self.index-1].url)
+
+class RisaLoadEmbed(Embed):
+    def __init__(self, gif, text):
+        super().__init__()
+        self.description = text
+        self.set_image(url=gif)

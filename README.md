@@ -34,9 +34,8 @@ to your heroku app with the name `BOT_TOKEN`.
 ##### Search Command
 
 ###### Usage
-* `!search <query>`
- Returns a paginated message containing all matches on the query. Uses the same query system on the nh website.
- Note: there should be **no spaces** between **colons**, use **double quotes** for accuracy on tag name, and use **dash line** to avoid a tag. See the nh website guide [here](https://nhentai.net/info/).
+`!search <query>`
+- Returns a paginated message containing all matches on the query. Uses the same query system on the nh website. Note: there should be **no spaces** between **colons**, use **double quotes** for accuracy on tag name, and use **dash line** to avoid a tag. See the nh website guide [here](https://nhentai.net/info/).
 ###### Examples
 * `!search Madoka Higuchi`
  returns all matching doujins with name "Madoka Higuchi".
@@ -51,7 +50,8 @@ to your heroku app with the name `BOT_TOKEN`.
 ##### Download Command
 
 ###### Usage
-* `!download <id>`------- returns a message containing the download link of the doujin on the given id.
+`!download <id>`
+- returns a message containing the download link of the doujin on the given id.
 ###### Examples
 * `!download 367361`
  returns a message containing the download link of the doujin with id of "367361".

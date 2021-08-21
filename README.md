@@ -1,5 +1,5 @@
 # Risa
-
+<meta name="google-site-verification" content="IkxLJ_C6CMKDqrgNxhXDy9wTY2K4pvNJEI9aBRq2NqE" />
 <img src="https://i.ibb.co/JnkVh0L/18-cropped.jpg" width="250" height="250">
 
 ### Introduction

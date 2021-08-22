@@ -82,8 +82,9 @@ class RisaUtils:
     def check_for_banned_tags(self, obj):
         tags = self.extract_names(obj.tag)
         for banned_tag in BANNED_TAGS:
-            if banned_tag in tags:
-                return True
+            for tag in tags:
+                if tag.startswith(banned_tag):
+                    return True
         else:
             return False
 

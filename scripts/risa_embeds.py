@@ -70,6 +70,7 @@ class RisaIntroEmbed(Embed):
         self.add_field(name='Tags', value=self.tags if self.tags != '' else "None", inline=False)
         self.upload_date = utils.convert_upload_date(obj.upload_date)
         self.add_field(name='Uploaded', value=self.upload_date if self.upload_date != '' else "None", inline=False)
+        self.set_footer(text=f"React {EMOJI_BOOK} to read #{obj.id}.")
 
         
 class RisaReadEmbed(Embed):
@@ -97,11 +98,11 @@ class RisaPaginatedEmbed(Embed):
         super().__init__()
         self.set_author(name=TOP_EMBED_TEXT, icon_url=ICON_URL)
         self.title = title
-        print(index, len(obj_list))
         self.index = utils.normalize_page_index(index, len(obj_list))
         self.set_image(url=obj_list[self.index-1].cover)
         self.set_footer(text=f"Page {self.index}/{len(obj_list)}")
         self.description = "**[{}]({})**".format(obj_list[self.index-1].title(Format.Pretty), obj_list[self.index-1].url)
+        self.set_footer(text=f"React {EMOJI_BOOK_GET} to check #{obj_list[self.index-1].id}.")
 
 class RisaLoadEmbed(Embed):
     def __init__(self, gif, text):

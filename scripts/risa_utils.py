@@ -4,11 +4,11 @@ from hentai import Hentai, Utils, Format
 from risa_settings import *
 
 
-hentai_utils = Utils()
+h_utils = Utils()
 
 class RisaUtils:
     def __init__(self):
-        self.homepage = hentai_utils.get_homepage()
+        self.homepage = h_utils.get_homepage()
         self.popular = self.homepage.popular_now
         self.newest = self.homepage.new_uploads
         self.search_data = dict()
@@ -90,7 +90,7 @@ class RisaUtils:
     
     def get_safe_source(self):
         while True:
-            id = hentai_utils.get_random_id()
+            id = h_utils.get_random_id()
             book = Hentai(id)
             if not self.check_for_banned_tags(book):
                 return book
@@ -99,7 +99,6 @@ class RisaUtils:
         self.search_data[query] = data
     
     def retrieve_search_data(self, query_string):
-        print(query_string)
         query = re.findall(r'`(.*?)`', query_string)[0]
         for key, res in self.search_data.items():
             if key == query:
@@ -113,10 +112,21 @@ class RisaUtils:
         else:
             return index
     
-    def inject_to_query(self, query, queries):
-        queries = ' '.join(queries)
-        res = query + queries
+    def query_filter(self, queries):
+        res = ' -tag:' + ' -tag:'.join(queries)
+
         return res
-            
+
+    def check_query(self, query):
+        for banned_tag in BANNED_TAGS:
+            if not query.find(banned_tag) == -1:
+                return True
+        else:
+            return False
+
+    def get_updates(self):
+        self.homepage = h_utils.get_homepage()
+        self.newest = self.homepage.new_uploads
+        self.popular = self.homepage.popular_now
 
 

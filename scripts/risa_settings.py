@@ -54,7 +54,7 @@ CH_LANG = ['cn']
 EN_LANG = ['en']
 
 # nh
-BANNED_TAGS = ['lolicon', 'shotacon', 'furry']
+BANNED_TAGS = ['loli', 'shota', 'furry']
 
 
 INTRO_MESSAGE_EMOJIS = [

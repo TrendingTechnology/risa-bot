@@ -100,9 +100,8 @@ class RisaPaginatedEmbed(Embed):
         self.title = title
         self.index = utils.normalize_page_index(index, len(obj_list))
         self.set_image(url=obj_list[self.index-1].cover)
-        self.set_footer(text=f"Page {self.index}/{len(obj_list)}")
+        self.set_footer(text=f"Page {self.index}/{len(obj_list)} | React {EMOJI_BOOK_GET} to check #{obj_list[self.index-1].id}.")
         self.description = "**[{}]({})**".format(obj_list[self.index-1].title(Format.Pretty), obj_list[self.index-1].url)
-        self.set_footer(text=f"React {EMOJI_BOOK_GET} to check #{obj_list[self.index-1].id}.")
 
 class RisaLoadEmbed(Embed):
     def __init__(self, gif, text):

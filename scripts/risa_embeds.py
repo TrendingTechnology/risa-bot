@@ -1,5 +1,6 @@
 
 from datetime import datetime
+from os import name
 from discord import Embed, Colour
 from hentai.hentai import Format
 from risa_settings import *
@@ -99,12 +100,18 @@ class RisaPaginatedEmbed(Embed):
         self.set_author(name=TOP_EMBED_TEXT, icon_url=ICON_URL)
         self.title = title
         self.index = utils.normalize_page_index(index, len(obj_list))
-        self.set_image(url=obj_list[self.index-1].cover)
-        self.set_footer(text=f"Page {self.index}/{len(obj_list)} | React {EMOJI_BOOK_GET} to check #{obj_list[self.index-1].id}.")
-        self.description = "**[{}]({})**".format(obj_list[self.index-1].title(Format.Pretty), obj_list[self.index-1].url)
+        self.obj = obj_list[self.index-1]
+        self.languages = utils.capitalize_and_join(utils.extract_names(self.obj.language))
+        self.add_field(name='Language', value=self.languages if self.languages != '' else "None")
+        self.pages = len(self.obj.pages)
+        self.add_field(name='Pages', value=self.pages if self.pages != '' else "None")
+        self.set_image(url=self.obj.cover)
+        self.set_footer(text=f"Page {self.index}/{len(obj_list)} | React {EMOJI_BOOK_GET} to check #{self.obj.id}.")
+        self.description = "**[{}]({})**".format(self.obj.title(Format.Pretty), self.obj.url)
 
 class RisaLoadEmbed(Embed):
     def __init__(self, gif, text):
         super().__init__()
         self.description = text
         self.set_image(url=gif)
+

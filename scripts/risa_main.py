@@ -17,7 +17,8 @@ h_utils = Utils()
 
 risaBot = commands.Bot(
     command_prefix=PREFIX,
-    intents = Intents.all()
+    case_insensitive=True,
+    intents=Intents.all()
 )
 risaBot.remove_command('help')
 
@@ -195,7 +196,11 @@ async def on_ready():
 
 
 # read command
-@risaBot.group(invoke_without_command=True)
+@risaBot.group(
+    invoke_without_command=True,
+    case_insensitive=True,
+    aliases=READ_ALIASES
+)
 async def read(ctx, message):
     book = risa_utils.get_source_by_id(message)
     if book:
@@ -216,7 +221,10 @@ async def read(ctx, message):
             )
 
 # popular command
-@read.command()
+@read.command(
+    case_insensitive=True,
+    aliases=POPULAR_ALIASES
+)
 async def popular(ctx):
     book_list = risa_utils.remove_banned_tags(risa_utils.popular)
     embed = RisaPaginatedEmbed(book_list, 'Popular Uploads')
@@ -226,7 +234,10 @@ async def popular(ctx):
 
 
 # newest command
-@read.command()
+@read.command(
+    case_insensitive=True,
+    aliases=NEWEST_ALIASES
+)
 async def newest(ctx):
     book_list = risa_utils.remove_banned_tags(risa_utils.newest)
     embed = RisaPaginatedEmbed(book_list, 'Newest Uploads')
@@ -236,7 +247,10 @@ async def newest(ctx):
 
 
 # random command
-@read.command()
+@read.command(
+    case_insensitive=True,
+    aliases=RANDOM_ALIASES
+)
 async def random(ctx):
     book = risa_utils.get_safe_source()
     embed = RisaIntroEmbed(book)
@@ -245,8 +259,12 @@ async def random(ctx):
         await intro_mess.add_reaction(react)
     await intro_mess.add_reaction(EMOJI_RANDOM)
 
-
-@risaBot.group(invoke_without_command=True)
+# search command
+@risaBot.group(
+    invoke_without_command=True,
+    case_insensitive=True,
+    aliases=SEARCH_ALIASES
+)
 async def search(ctx, *, message):
     query = message.strip()
     if not risa_utils.check_query(query):
@@ -272,7 +290,10 @@ async def search(ctx, *, message):
         await ctx.send(BANNED_TAG_MSG, delete_after=SHORT_MSG_DELETE_TIMER)
 
 # download
-@risaBot.command()
+@risaBot.command(
+    case_insensitive=True,
+    aliases=DOWNLOAD_ALIASES
+)
 async def download(ctx, message):
     book = risa_utils.get_source_by_id(message)
     if book:
@@ -291,14 +312,20 @@ async def download(ctx, message):
                 delete_after=SHORT_MSG_DELETE_TIMER
             )
 
-@risaBot.command()
-async def risa(ctx):
-    embed = RisaEmbed()
-    await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
-
-@risaBot.command()
+# help command
+@risaBot.command(
+    case_insensitive=True
+)
 async def help(ctx):
     embed = RisaHelpEmbed()
     await ctx.send(embed=embed)
+
+# misc commands
+@risaBot.command(
+    case_insensitive=True
+)
+async def risa(ctx):
+    embed = RisaEmbed()
+    await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
 
 risaBot.run(TOKEN)

@@ -52,6 +52,13 @@ GMAIL = 'https://mail.google.com/mail/u/0/?fs=1&to=reviuy9@gmail.com&tf=cm'
 JP_LANG = ['jp']
 CH_LANG = ['cn']
 EN_LANG = ['en']
+SEARCH_ALIASES = ['s']
+READ_ALIASES = ['r']
+RANDOM_ALIASES = ['rand']
+DOWNLOAD_ALIASES = ['dl']
+NEWEST_ALIASES = ['n', 'new']
+POPULAR_ALIASES = ['p', 'pop']
+
 
 # nh
 BANNED_TAGS = ['loli', 'shota', 'furry']

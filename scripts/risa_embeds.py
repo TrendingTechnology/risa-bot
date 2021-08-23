@@ -16,13 +16,13 @@ class RisaEmbed(Embed):
         self.title = "Hello! I am Risa"
         self.color = Colour.light_grey()
         self.description = f"I am an nHentai discord bot that will help you browse"\
-        "and download your favorite doujin inside your own discord server. You can"\
-        "invite me to your server [here](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot). Type "\
+        " and download your favorite doujin inside your own discord server. You can"\
+        " invite me to your server [here](https://discord.com/api/oauth2/authorize?client_id=874157314565881876&permissions=0&scope=bot). Type "\
         f"`{PREFIX}help` to start using me!"
         self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n"\
             f"[G-mail]({GMAIL})")
 
-        self.add_field(name="More Info Here", value=f"[Risa Bot]({GITHUB_README_LINK})\n[Source Code]({SOURCE_CODE})")
+        self.add_field(name="More Info Here", value=f"[Full Guide]({GITHUB_README_LINK})\n[Source Code]({SOURCE_CODE})")
         self.timestamp = datetime.utcnow()
 
 
@@ -46,7 +46,7 @@ class RisaHelpEmbed(Embed):
         self.add_field(name="Contact My Owner", value=f"[Github]({GITHUB_LINK})\n"\
             f"[G-mail]({GMAIL})"
         )
-        self.add_field(name="More Info Here", value=f"[Risa Bot]({GITHUB_README_LINK})\n[Source Code]({SOURCE_CODE})")
+        self.add_field(name="More Info Here", value=f"[Full Guide]({GITHUB_README_LINK})\n[Source Code]({SOURCE_CODE})")
         self.timestamp = datetime.utcnow()
 
 class RisaIntroEmbed(Embed):

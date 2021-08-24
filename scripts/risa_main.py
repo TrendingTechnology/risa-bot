@@ -1,4 +1,5 @@
 
+
 from hentai import Hentai, Utils, Sort
 from discord.ext import commands, tasks
 from discord.flags import Intents
@@ -11,6 +12,7 @@ from risa_embeds import RisaHelpEmbed
 from risa_embeds import RisaLoadEmbed
 from risa_embeds import RisaEmbed
 from risa_settings import *
+
 
 risa_utils = RisaUtils()
 h_utils = Utils()
@@ -219,7 +221,7 @@ async def read(ctx, message):
                 NOT_EXIST_MSG,
                 delete_after=SHORT_MSG_DELETE_TIMER
             )
-
+    print('command:', ctx.command, 'input:', message)
 # popular command
 @read.command(
     case_insensitive=True,
@@ -231,7 +233,7 @@ async def popular(ctx):
     paginated_mess = await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
     for react in PAGINATED_MESSAGE_EMOJIS:
         await paginated_mess.add_reaction(react)
-
+    print('command:', ctx.command)
 
 # newest command
 @read.command(
@@ -239,12 +241,13 @@ async def popular(ctx):
     aliases=NEWEST_ALIASES
 )
 async def newest(ctx):
+
     book_list = risa_utils.remove_banned_tags(risa_utils.newest)
     embed = RisaPaginatedEmbed(book_list, 'Newest Uploads')
     paginated_mess = await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
     for react in PAGINATED_MESSAGE_EMOJIS:
         await paginated_mess.add_reaction(react)
-
+    print('command:', ctx.command)
 
 # random command
 @read.command(
@@ -258,6 +261,7 @@ async def random(ctx):
     for react in INTRO_MESSAGE_EMOJIS:
         await intro_mess.add_reaction(react)
     await intro_mess.add_reaction(EMOJI_RANDOM)
+    print('command:', ctx.command)
 
 # search command
 @risaBot.group(
@@ -267,7 +271,26 @@ async def random(ctx):
 )
 async def search(ctx, *, message):
     query = message.strip()
-    if not risa_utils.check_query(query):
+    if risa_utils.check_for_digits(query) != None:
+        book = risa_utils.get_source_by_id(query)
+        if book:
+            if not risa_utils.check_for_banned_tags(book):
+                embed = RisaIntroEmbed(book)
+                intro_mess = await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
+                for react in INTRO_MESSAGE_EMOJIS:
+                    await intro_mess.add_reaction(react)
+            else:
+                await ctx.send(
+                    BANNED_TAG_MSG,
+                    delete_after=SHORT_MSG_DELETE_TIMER
+                )
+        else:
+            await ctx.send(
+                    NOT_EXIST_MSG,
+                    delete_after=SHORT_MSG_DELETE_TIMER
+                )
+
+    elif not risa_utils.check_query(query):
         embed = RisaLoadEmbed(LOAD_GIF_URL, LOAD_MSG)
         paginated_mess = await ctx.send(embed=embed)
         book_list = list(h_utils.search_all_by_query(query + risa_utils.query_filter(BANNED_TAGS),
@@ -275,7 +298,6 @@ async def search(ctx, *, message):
                     progressbar=True
                 )
             )
-        print(query + risa_utils.query_filter(BANNED_TAGS))
         if book_list != []:
             risa_utils.save_search_data(query, book_list)
             data = risa_utils.retrieve_search_data(f'Search results on `{query}`') 
@@ -285,9 +307,11 @@ async def search(ctx, *, message):
                 await paginated_mess.add_reaction(react)
         else:
             embed = RisaLoadEmbed(NO_RESULT_GIF_URL, NO_RESULT_MSG)
-            await paginated_mess.edit(embed=embed, delete_after=5)
+            await paginated_mess.edit(embed=embed, delete_after=SHORT_MSG_DELETE_TIMER)
+    
     else:
         await ctx.send(BANNED_TAG_MSG, delete_after=SHORT_MSG_DELETE_TIMER)
+    print('command:', ctx.command, 'input:', message)
 
 # download
 @risaBot.command(
@@ -311,6 +335,7 @@ async def download(ctx, message):
                 NOT_EXIST_MSG,
                 delete_after=SHORT_MSG_DELETE_TIMER
             )
+    print('command:', ctx.command, 'input:', message)
 
 # help command
 @risaBot.command(
@@ -319,6 +344,7 @@ async def download(ctx, message):
 async def help(ctx):
     embed = RisaHelpEmbed()
     await ctx.send(embed=embed)
+    print('command:', ctx.command)
 
 # misc commands
 @risaBot.command(
@@ -327,5 +353,6 @@ async def help(ctx):
 async def risa(ctx):
     embed = RisaEmbed()
     await ctx.send(embed=embed, delete_after=EMBED_DELETE_TIMER)
-
+    print('command:', ctx.command)
+    
 risaBot.run(TOKEN)

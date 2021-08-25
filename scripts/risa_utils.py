@@ -131,9 +131,9 @@ class RisaUtils:
         self.popular = self.homepage.popular_now
 
     def check_for_digits(self, query):
-        res = re.findall(r'[0-9]+', query)[0]
-        if res != []:
+        try:
+            res = re.findall(r'[0-9]+', query)[0]
             return res
-        else:
+        except Exception:
             return None
 
